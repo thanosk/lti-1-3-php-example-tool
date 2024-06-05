@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
-define("TOOL_HOST", ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?: $_SERVER['REQUEST_SCHEME']) . '://' . $_SERVER['HTTP_HOST']);
+define("TOOL_HOST", (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) ? $_SERVER['HTTP_X_FORWARDED_PROTO'] : $_SERVER['REQUEST_SCHEME']) . '://' . $_SERVER['HTTP_HOST']);
 session_start();
 use \IMSGlobal\LTI;
 
@@ -17,7 +17,7 @@ class Example_Database implements LTI\Database {
         return LTI\LTI_Registration::new()
             ->set_auth_login_url($_SESSION['iss'][$iss]['auth_login_url'])
             ->set_auth_token_url($_SESSION['iss'][$iss]['auth_token_url'])
-            ->set_auth_server($_SESSION['iss'][$iss]['auth_server'])
+            ->set_auth_server((isset($_SESSION['iss'][$iss]['auth_server']) ? $_SESSION['iss'][$iss]['auth_server'] : null))
             ->set_client_id($_SESSION['iss'][$iss]['client_id'])
             ->set_key_set_url($_SESSION['iss'][$iss]['key_set_url'])
             ->set_kid($_SESSION['iss'][$iss]['kid'])
