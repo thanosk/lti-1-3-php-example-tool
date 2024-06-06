@@ -41,11 +41,13 @@ $jwt = JWT::encode(
     'RS256',
     'fcec4f14-28a5-4697-87c3-e9ac361dada5'
 );
+$redirect_uri = (isset($_REQUEST['redirect_uri'])) ? $_REQUEST['redirect_uri'] : null;
+$state = (isset($_REQUEST['state'])) ? $_REQUEST['state'] : null;
 ?>
 
-<form id="auto_submit" action="<?= $_REQUEST['redirect_uri']; ?>" method="POST">
+<form id="auto_submit" action="<?= $redirect_uri ?>" method="POST">
     <input type="hidden" name="id_token" value="<?= $jwt ?>" />
-    <input type="hidden" name="state" value="<?= $_REQUEST['state']; ?>" />
+    <input type="hidden" name="state" value="<?= $state ?>" />
 </form>
 <script>
     document.getElementById('auto_submit').submit();
